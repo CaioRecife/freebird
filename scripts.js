@@ -51,8 +51,8 @@ function click(event){
 }
 
 function main(){
-    height = 600
-    width = 600
+    height = innerHeight
+    width = innerWidth
 
     canvas = document.createElement("canvas")
     canvas.width = width
