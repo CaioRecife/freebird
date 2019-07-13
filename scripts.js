@@ -1,8 +1,20 @@
-var canvas, ctx, height, width, frames = 0, jumpMax = 3,
+var canvas, ctx, height, width, frames = 0
+const velocity = 1
+    var vx = 0
+    var vy = 0
+    var px = 10
+    var py = 15
+    var tp = 20
+    var qp = 20
+    var ax = 15
+    var ay = 15
+
+    var trail = [];
+    tail = 5
 
 floor = {
     y: 550,
-    height: 50,
+    height: 1000,
     color: '#ffdf70',
 
     drawn: function(){
@@ -12,14 +24,14 @@ floor = {
 },
 
 block = {
-    x: 50,
+    x: 10,
     y: 0,
     height: 50,
     width: 50,
     color: "#ff4e4e",
-    gravity: 1.5,
+    gravity: 0.5,
     velocity: 0,
-    jumpForce: 15,
+    jumpForce: 10,
     nJump: 0,
 
     update: function(){
@@ -33,10 +45,9 @@ block = {
     },
 
     jump: function(){
-        if(this.nJump < jumpMax){
         this.velocity = -this.jumpForce
         this.nJump++
-        }
+        
     },
 
     drawn: function(){
@@ -48,6 +59,45 @@ block = {
 
 function click(event){
     block.jump()
+    // move
+function move(){
+    px += vx
+        py += vy
+        if(px < 0){
+            px = qp - 1
+
+        }
+        if(px > qp - 1){
+            px = 0
+
+        }
+        if(py < 0){
+            py = qp - 1
+        }
+        if(py > qp -1){
+            py = 0
+        }
+}
+
+for (var i = 0; i < trail.length; i++){
+    ctx.fillRect(trail[i].x*tp, trail[i].y*tp, tp, tp)
+
+    if(trail[i].x == px && trail[i].y == py){
+        vx = vy = 0
+    }
+}
+
+
+trail({x:px, y:py })
+    while (trail.length > tail){
+        trail.shift()
+    }
+
+    if(ax==px && ay==py){
+        tail++
+        ax = Math.floor(Math.random()*qp)
+        ay = Math.floor(Math.random()*qp)
+    }
 }
 
 function main(){
@@ -87,6 +137,9 @@ function drawn(){
     floor.drawn()
     block.drawn()
 }
+
+
+
 
 //start game
 
